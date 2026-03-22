@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# 📘 Smart Grade
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🚀 Objectif du projet
 
-Currently, two official plugins are available:
+Créer une application moderne, scalable et pédagogique permettant :
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- une gestion simple des données scolaires
+- une architecture propre et maintenable
+- une base solide pour évoluer vers un produit complet
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# 🧱 Stack technique
 
-## Expanding the ESLint configuration
+- Frontend : React + TypeScript
+- UI : TailwindCSS + composants personnalisés
+- Backend : Supabase (Auth + Database + RLS)
+- Routing : React Router
+- State global : Context API
+- Notifications : Sonner (toast)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# 🔐 Rapport d’implémentation actuel — Système de Login (Smart Grade)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🎯 Objectif
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+Mettre en place un système d’authentification complet permettant :
+
+- la création de compte (signup)
+- la connexion utilisateur (login)
+- la gestion des sessions
+- une expérience utilisateur fluide et sécurisée
+
+---
+
+## 🧱 Technologies utilisées
+
+- React + TypeScript
+- Supabase Auth
+- TailwindCSS
+- Sonner (notifications toast)
+
+---
+
+## ⚙️ Fonctionnement global
+
+Le système repose sur Supabase Auth :
+
+1. L’utilisateur remplit le formulaire  
+2. Le frontend envoie les données à Supabase  
+3. Supabase gère :
+   - la création du compte
+   - la validation
+   - la session  
+4. Le frontend affiche le résultat (succès ou erreur)
+
+---
+
+## 🧩 Implémentation
+
+### 📄 Composant Login
+
+Fonctionnalités :
+
+- Toggle entre login et signup  
+- Gestion des états :
+  - email
+  - password
+  - fullName
+  - loading  
+- Soumission du formulaire avec `handleSubmit`
+
+---
+
+### 🔐 Signup
+
+```ts
+supabase.auth.signUp({
+  email,
+  password,
+  options: {
+    data: { full_name: fullName },
+    emailRedirectTo: window.location.origin,
   },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+});
