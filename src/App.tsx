@@ -26,7 +26,7 @@ function AuthenticatedLayout() {
         <AppSidebar />
         <div className="flex-1 flex flex-col">
           <Navbar />
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-4 sm:p-6">
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/students" element={<Students />} />
